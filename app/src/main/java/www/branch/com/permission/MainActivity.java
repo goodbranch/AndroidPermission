@@ -69,6 +69,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
   @Override
   public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
     super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-    PermissionUtil.savePermission(getApplicationContext(), permissions, grantResults);
+    if (PermissionUtil.checkPermission(grantResults)) {
+      //如果用户授权
+      Toast.makeText(getApplicationContext(), "授权成功", Toast.LENGTH_SHORT).show();
+    } else {
+      Toast.makeText(getApplicationContext(), "拒绝授权", Toast.LENGTH_SHORT).show();
+    }
   }
 }

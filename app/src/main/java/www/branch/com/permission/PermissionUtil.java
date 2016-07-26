@@ -3,20 +3,18 @@ package www.branch.com.permission;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 /**
  * Created by branch on 2016-7-24.
- *
- * 在Activity 的onRequestPermissionsResult 方法中必须调用 {@code #savePermission}
  */
 public class PermissionUtil {
 
@@ -38,21 +36,6 @@ public class PermissionUtil {
     }
 
     return true;
-  }
-
-  /**
-   * 由于默认是不启用权限请求弹窗的，所以需要标记为判断是否为第一次，哪些已经拒绝或者允许过
-   */
-  public static void savePermission(Context mContext, String[] permissions, int[] grantResults) {
-    if (mContext == null || permissions == null || grantResults == null || permissions.length == 0 || permissions.length != grantResults.length) {
-      return;
-    }
-    SharedPreferences.Editor editor = PreferenceUtil.getInstance(mContext).getSharedPreferences().edit();
-    for (int i = 0; i < permissions.length; i++) {
-      Log.e("ryze", "权限-》 " + permissions[i] + " == " + grantResults[i]);
-      editor.putInt(permissions[i], grantResults[i]);
-    }
-    editor.commit();
   }
 
 
@@ -186,6 +169,8 @@ public class PermissionUtil {
       Log.e("branch", "requestPermission->" + should + " | " + p);
       if (should) {
         //是否需要给用户一个解释,当弹窗被拒绝后，should会变成true
+
+        Toast.makeText(activity, "被拒绝后给用户一个解释", Toast.LENGTH_SHORT).show();
 
       } else {
         shouldList.add(p);
